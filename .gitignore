@@ -1,0 +1,23 @@
+# LaTeX intermediate files
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.fls
+*.fdb_latexmk
+
+# Common Lisp binaries
+*.fasl
+*.lx64fsl
+
+# Backup files
+*.bak
+*.bak[0-9]
+
+# System files
+.DS_Store
+.gemini/
+.antigravity/

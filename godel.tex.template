@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{seqsplit}
+\usepackage[hidelinks]{hyperref}
+
+\title{The G\"odel Sentence for Peano Arithmetic}
+\author{Anton Ivanov \\ \url{https://github.com/forall-x/godel-sentence}}
+\begin{document}
+\maketitle
+
+\section{Preliminaries: Arithmetic Dialect}
+The following construction is formulated in First-Order Peano Arithmetic with the signature $\{0, S, +, \cdot, =\}$.
+
+\subsection{Document Notation: Decimal Shorthand}
+For legibility, formal successor chains are rendered in this document as decimal integers (e.g., $S(S(0)) \equiv 2$). This is a presentation shorthand and does not alter the underlying formal terms.
+
+\subsection{Algebraic Simplifications}
+The following logical identities are applied during AST construction:
+\begin{itemize}
+  \item \textbf{Additive Identity}: $0 + t \equiv t$ and $t + 0 \equiv t$
+  \item \textbf{Multiplicative Identity}: $1 \cdot t \equiv t$ and $t \cdot 1 \equiv t$
+  \item \textbf{Zero Law}: $0 \cdot t \equiv 0$ and $t \cdot 0 \equiv 0$
+\end{itemize}
+
+\subsection{Formal Arithmetization: Positional Numerals}
+The formal arithmetization requires representing G\"odel numbers of $n \approx 10^{{{GODEL_GN_POW10}}}$, for which unary chains are infeasible. We use the positional encoding formula $\text{Num}(v, n)$, provably equivalent to $v = n$, defining $v$ via the bit-doubling identity $v_{i+1} = (v_i + v_i) + b_i$. This reduces formula character complexity from $O(n)$ to $O(\log n)$.
+
+For example, $\text{Num}(v, 5)$ (binary $101_2$) is constructed by binding intermediate doubling steps with existential quantifiers:
+\begin{equation*} 
+\exists v_2 ( \exists v_1 ( \exists v_0 (v_0 = S(0) \land v_1 = v_0 + v_0) \land v_2 = S(v_1 + v_1) ) \land v = v_2 )
+\end{equation*}
+
+\section{Formal Derivation}
+The G\"odel sentence $G$ is constructed via the Diagonal Lemma using a fixed-width block DAG encoding.
+
+\subsection{Unprovability Predicate}
+Let $\Psi(y)$ be the formula asserting that there exists no proof $p$ of the formula with G\"odel number $y$:
+\begin{equation*} \Psi(y) \iff \neg \exists p \, \text{IsProof}(p, y) \end{equation*}
+
+\subsection{Diagonalization Template}
+Let $\alpha(x)$ be the formula asserting $\Psi(\text{diag}(x))$:
+\begin{equation*} \alpha(x) \iff \exists x_{diag} (\text{diag}(x, x_{diag}) \land \Psi(x_{diag})) \end{equation*}
+
+\subsection{Fixed Point Calculation}
+Let $n$ be the G\"odel number of $\alpha(x)$:
+\begin{equation*} n = gn(\alpha) = {{GODEL_GN_PREFIX}} \dots (\text{{{GODEL_GN_BITS}} bits}) \end{equation*}
+
+\subsection{The G\"odel Sentence}
+The sentence $G$ is the diagonalization of $\alpha$, specifying the value $n = gn(\alpha)$ via the $\text{Num}$ predicate:
+\begin{equation*} G \iff \exists n_x (\text{Num}(n_x, n) \land \alpha(n_x)) \end{equation*}
+
+\section{The Complete G\"odel Sentence}
+The full expanded form of $G$ is provided below. \\
+{\footnotesize
+\begin{flushleft}
+\sloppy
+$G = {{GODEL_PA_FORMULA}}$
+\end{flushleft}
+}
+\end{document}
